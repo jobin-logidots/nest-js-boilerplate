@@ -83,15 +83,15 @@ npx prisma migrate reset
 
 ### Creating seeds
 
-1. Create seed file with `npm run seed:create -- --name=Post`. Where `Post` is name of entity.
+1. Create seed file with `pnpm seed:create -- --name=Post`. Where `Post` is name of entity.
 1. Go to `src/database/seeds/post/post-seed.service.ts`.
 1. In `run` method extend your logic.
-1. Run [npm run seed:run](#run-seed)
+1. Run [pnpm seed:run](#run-seed)
 
 ### Run seed
 
 ```bash
-npm run seed:run
+pnpm seed:run
 ```
 
 ---

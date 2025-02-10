@@ -3,9 +3,9 @@
 ![github action status](https://github.com/jobin-logidots/nest-js-boilerplate/actions/workflows/docker-e2e.yml/badge.svg)
 [![renovate](https://img.shields.io/badge/renovate-enabled-%231A1F6C?logo=renovatebot)](https://app.renovatebot.com/dashboard)
 
-## Description <!-- omit in toc -->
+## Description
 
-NestJS REST API boilerplate for typical project
+This is a fork of [Artem Shchirov's NestJS Starter](https://github.com/artshchirov/nest-js-boilerplate), enhanced with Prisma ORM integration and improved Docker support. The boilerplate provides a robust foundation for building REST APIs with NestJS, featuring seamless database management through Prisma, complete Docker containerization, and various pre-configured essential features for modern web applications.
 
 [Full documentation here](/docs/readme.md)
 
@@ -38,9 +38,6 @@ NestJS REST API boilerplate for typical project
 - [x] Docker.
 - [x] CI (Github Actions).
 
-## Todo
-
-- [ ] Fix docker scripts and ci after moving to PrismaORM
 
 ## Quick run
 
@@ -76,15 +73,15 @@ docker compose up -d postgres adminer maildev
 ```
 
 ```bash
-npm install
+pnpm install
 
-npm run env:local:up
+pnpm run env:local:up
 
-npm run db:migrate:dev
+pnpm run db:migrate:dev
 
-npm run db:seed
+pnpm run db:seed
 
-npm run start
+pnpm run start
 ```
 
 ## Links
@@ -102,35 +99,35 @@ If you want to automatically update dependencies, you can connect [Renovate](htt
 Generate migration
 
 ```bash
-npm run db:migrate:dev:create
+pnpm run db:migrate:dev:create
 ```
 
 Run migration
 
 ```bash
-npm run db:migrate:dev
+pnpm run db:migrate:dev
 ```
 
 Drop all tables in database
 
 ```bash
-npm run db:reset
+pnpm run db:reset
 ```
 
 Run seed
 
 ```bash
-npm run db:seed
+pnpm run db:seed
 ```
 
 ## Tests
 
 ```bash
 # unit tests
-npm run test
+pnpm run test
 
 # e2e tests
-npm run test:e2e
+pnpm run test:e2e
 ```
 
 ## Tests in Docker

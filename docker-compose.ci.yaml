@@ -1,10 +1,10 @@
 services:
   postgres:
     image: postgres:16.0-alpine
+    ports:
+      - ${DATABASE_PORT}:5432
     volumes:
       - boilerplate-db:/var/lib/postgresql/data
-    expose:
-      - 5432
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
@@ -14,21 +14,36 @@ services:
     build:
       context: .
       dockerfile: maildev.Dockerfile
-    expose:
-      - 1080
-      - 1025
+    ports:
+      - ${MAIL_CLIENT_PORT}:1080
+      - ${MAIL_PORT}:1025
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
   # Uncomment to use redis
   # redis:
   #   image: redis:7-alpine
-  #   expose:
-  #     - 6379
+  #   ports:
+  #     - 6379:6379
 
   api:
     build:
       context: .
-      dockerfile: e2e.Dockerfile
-
-
+      dockerfile: Dockerfile
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_HOST=${DATABASE_HOST}
+    depends_on:
+      - postgres
 volumes:
   boilerplate-db:
