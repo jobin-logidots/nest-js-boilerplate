@@ -28,6 +28,7 @@ This is a fork of [Artem Shchirov's NestJS Starter](https://github.com/artshchir
 - [x] Seeding.
 - [x] Config Service ([@nestjs/config](https://www.npmjs.com/package/@nestjs/config)).
 - [x] Mailing ([nodemailer](https://www.npmjs.com/package/nodemailer)).
+- [x] Engagespot. (TODO)
 - [x] Sign in and sign up via email.
 - [x] Social sign in (Apple, Facebook, Google, Twitter).
 - [x] Admin and User roles.
@@ -36,7 +37,7 @@ This is a fork of [Artem Shchirov's NestJS Starter](https://github.com/artshchir
 - [x] Swagger.
 - [x] E2E and units tests.
 - [x] Docker.
-- [x] CI (Github Actions).
+- [x] CI (Github Actions).  TODO
 
 
 ## Quick run

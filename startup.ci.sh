@@ -9,4 +9,4 @@ pnpm db:migrate:deploy
 pnpm db:seed
 
 # Start the application in the foreground
-pnpm start:prod
+pnpm start:prod --port 3000
