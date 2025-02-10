@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   postgres:
     image: postgres:16.0-alpine
@@ -15,17 +17,24 @@ services:
       timeout: 5s
       retries: 5
     mem_limit: 512m
-    
-    
+
   api:
     build:
       context: .
       dockerfile: e2e.Dockerfile
     environment:
       NODE_ENV: test
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/testdb
+      DATABASE_URL: postgres://test:secret@postgres:5432/api
     depends_on:
       postgres:
         condition: service_healthy
-    command: sh -c "/opt/wait-for-it.sh postgres:5432 -- pnpm start:prod"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     mem_limit: 512m
+
+volumes:
+  pgdata:
+    driver: local
