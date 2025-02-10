@@ -1,4 +1,4 @@
-name: Docker E2E Tests
+name: CI Pipeline
 
 on:
   push:
@@ -19,25 +19,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Create Environment File
-        run: |
-          echo "DATABASE_PORT=5432" >> .env
-          echo "DATABASE_USERNAME=postgres" >> .env
-          echo "DATABASE_PASSWORD=postgres" >> .env
-          echo "DATABASE_NAME=testdb" >> .env
-          echo "DATABASE_HOST=localhost" >> .env
-          echo "APP_PORT=3000" >> .env
-          echo "NODE_ENV=test" >> .env
-          echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/testdb" >> .env
-
       - name: Start Docker Services
         run: |
-          docker compose -f docker-compose.yml --env-file .env up -d
+          docker compose -f docker-compose.ci.yaml up -d
 
       - name: Wait for PostgreSQL to be Ready
         run: |
+          echo "Waiting for PostgreSQL to become healthy..."
           until docker compose exec -T postgres pg_isready -U postgres -d testdb; do
-            echo "Waiting for PostgreSQL...";
             sleep 2;
           done
           echo "PostgreSQL is ready!"
@@ -47,4 +36,4 @@ jobs:
 
       - name: Stop Docker Services
         if: always()
-        run: docker compose down
+        run: docker compose -f docker-compose.ci.yaml down
