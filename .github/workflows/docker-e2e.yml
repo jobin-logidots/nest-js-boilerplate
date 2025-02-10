@@ -12,7 +12,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Run e2e tests
+
+      - name: Start services (Postgres, Maildev, API)
         run: |
-          docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up -d postgres maildev
-          docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up --build --exit-code-from api api
+          docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up -d postgres maildev api
+
+      - name: Wait for API to be ready
+        run: |
+          timeout 60 sh -c 'until curl -sSf http://localhost:3001/api; do sleep 2; done'
+      
+      - name: Run E2E tests
+        run: |
+          docker exec api pnpm test:e2e -- --runInBand
+
