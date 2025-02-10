@@ -28,4 +28,4 @@ RUN pnpm prisma generate
 
 RUN pnpm run build
 
-CMD ["/opt/startup.dev.sh"]
+CMD ["/opt/startup.ci.sh"]
