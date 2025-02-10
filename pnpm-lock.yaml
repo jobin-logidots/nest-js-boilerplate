@@ -93,8 +93,8 @@ dependencies:
     specifier: 0.2.2
     version: 0.2.2
   rimraf:
-    specifier: 5.0.7
-    version: 5.0.7
+    specifier: 5.0.10
+    version: 5.0.10
   rxjs:
     specifier: 7.8.1
     version: 7.8.1
@@ -394,8 +394,8 @@ packages:
       '@aws-crypto/sha1-browser': 3.0.0
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.587.0
-      '@aws-sdk/client-sts': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)
+      '@aws-sdk/client-sso-oidc': 3.587.0(@aws-sdk/client-sts@3.587.0)
+      '@aws-sdk/client-sts': 3.587.0
       '@aws-sdk/core': 3.587.0
       '@aws-sdk/credential-provider-node': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/middleware-bucket-endpoint': 3.587.0
@@ -453,13 +453,13 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/client-sso-oidc@3.587.0:
+  /@aws-sdk/client-sso-oidc@3.587.0(@aws-sdk/client-sts@3.587.0):
     resolution: {integrity: sha512-ISDgHcGmXLdSJjVk8X6dPHRdlaURDbSyZ7b8sQyXCrBt8EQ/d/sEQLEaJJJrdB6Z2fYRDupWQq7+s42bH2FLjA==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)
+      '@aws-sdk/client-sts': 3.587.0
       '@aws-sdk/core': 3.587.0
       '@aws-sdk/credential-provider-node': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/middleware-host-header': 3.577.0
@@ -498,6 +498,7 @@ packages:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.6.2
     transitivePeerDependencies:
+      - '@aws-sdk/client-sts'
       - aws-crt
     dev: false
 
@@ -547,13 +548,13 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/client-sts@3.587.0(@aws-sdk/client-sso-oidc@3.587.0):
+  /@aws-sdk/client-sts@3.587.0:
     resolution: {integrity: sha512-fnOa7bHuvoOHULZlVE4LgSAiKmXWZFkI42m1XV2XjeW9jtEQDTyTD678My6tGQi2T3Jwrgk6c7h2rOO3wLl9tg==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.587.0
+      '@aws-sdk/client-sso-oidc': 3.587.0(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/core': 3.587.0
       '@aws-sdk/credential-provider-node': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/middleware-host-header': 3.577.0
@@ -592,7 +593,6 @@ packages:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.6.2
     transitivePeerDependencies:
-      - '@aws-sdk/client-sso-oidc'
       - aws-crt
     dev: false
 
@@ -640,7 +640,7 @@ packages:
     peerDependencies:
       '@aws-sdk/client-sts': ^3.587.0
     dependencies:
-      '@aws-sdk/client-sts': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)
+      '@aws-sdk/client-sts': 3.587.0
       '@aws-sdk/credential-provider-env': 3.587.0
       '@aws-sdk/credential-provider-http': 3.587.0
       '@aws-sdk/credential-provider-process': 3.587.0
@@ -712,7 +712,7 @@ packages:
     peerDependencies:
       '@aws-sdk/client-sts': ^3.587.0
     dependencies:
-      '@aws-sdk/client-sts': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)
+      '@aws-sdk/client-sts': 3.587.0
       '@aws-sdk/types': 3.577.0
       '@smithy/property-provider': 3.1.11
       '@smithy/types': 3.7.2
@@ -888,7 +888,7 @@ packages:
     peerDependencies:
       '@aws-sdk/client-sso-oidc': ^3.587.0
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.587.0
+      '@aws-sdk/client-sso-oidc': 3.587.0(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/types': 3.577.0
       '@smithy/property-provider': 3.1.11
       '@smithy/shared-ini-file-loader': 3.1.12
@@ -7800,9 +7800,8 @@ packages:
       glob: 9.3.5
     dev: true
 
-  /rimraf@5.0.7:
-    resolution: {integrity: sha512-nV6YcJo5wbLW77m+8KjH8aB/7/rxQy9SZ0HY5shnwULfS+9nmTtVXAJET5NdZmCzA4fPI/Hm1wo/Po/4mopOdg==}
-    engines: {node: '>=14.18'}
+  /rimraf@5.0.10:
+    resolution: {integrity: sha512-l0OE8wL34P4nJH/H2ffoaniAokM2qSmrtXHmlpvYr5AVVX8msAyW0l8NVJFDxlSK4u3Uh/f41cQheDVdnYijwQ==}
     hasBin: true
     dependencies:
       glob: 10.4.5
