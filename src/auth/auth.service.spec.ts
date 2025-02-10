@@ -160,9 +160,19 @@ describe('AuthService', () => {
         });
 
         it('should throw error if user not found', async () => {
-            jest.spyOn(usersService, 'findOneByEmail').mockResolvedValue({} as User);
+            jest.spyOn(usersService, 'findOneByEmail').mockResolvedValue(undefined as unknown as User);
 
-            await expect(service.forgotPassword(email)).rejects.toThrow(HttpException);
+            await expect(service.forgotPassword(email)).rejects.toThrow(
+                new HttpException(
+                    {
+                        status: HttpStatus.UNPROCESSABLE_ENTITY,
+                        errors: {
+                            email: 'notFound',
+                        },
+                    },
+                    HttpStatus.UNPROCESSABLE_ENTITY,
+                ),
+            );
         });
     });
 
