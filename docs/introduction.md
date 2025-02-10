@@ -1,8 +1,8 @@
 # Introduction
 
-## Online demo
+NestJS Boilerplate is a production-ready backend template built with NestJS, designed to jumpstart your web application development. It provides a robust foundation with essential features and best practices already implemented, allowing developers to focus on building their core business logic rather than setting up common functionalities.
 
-<https://nestjs-starter-test.herokuapp.com/docs>
+This boilerplate incorporates modern development practices and comes pre-configured with a comprehensive set of tools and features that are commonly required in production applications. Whether you're building a small application or a large-scale system, this template provides the necessary structure and components to get you started quickly and efficiently.
 
 ## Features
 

@@ -42,10 +42,6 @@ sequenceDiagram
     A->>B: Update user via PATCH /api/v1/auth/me
 ```
 
-### Video example
-
-<https://user-images.githubusercontent.com/6001723/224558636-d22480e4-f70a-4789-b6fc-6ea343685dc7.mp4>
-
 ## How to delete files?
 
 We prefer not to delete files, as this may have negative experience during restoring data. Also for this reason we also use [Soft-Delete](https://www.prisma.io/docs/orm/prisma-client/client-extensions/middleware/soft-delete-middleware) approach in database. However, if you need to delete files you can create your own handler, cronjob, etc.

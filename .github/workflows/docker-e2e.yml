@@ -13,4 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run e2e tests
-        run: docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up --build --exit-code-from api
+        run: |
+          docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up -d postgres maildev
+          docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up --build --exit-code-from api api

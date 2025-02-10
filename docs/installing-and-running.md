@@ -39,25 +39,25 @@
 1. Install dependency
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 1. Run migrations
 
    ```bash
-   npm run migration:run
+   pnpm run migration:run
    ```
 
 1. Run seeds
 
    ```bash
-   npm run seed:run
+   pnpm run seed:run
    ```
 
 1. Run app in dev mode
 
    ```bash
-   npm run start:dev
+   pnpm run start:dev
    ```
 
 1. Open <http://localhost:3000>
