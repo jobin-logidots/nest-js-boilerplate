@@ -8,11 +8,11 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: testdb
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: api
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d testdb"]
+      test: ["CMD-SHELL", "pg_isready -U test -d api"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -25,11 +25,10 @@ services:
       dockerfile: e2e.Dockerfile
     environment:
       NODE_ENV: test
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/testdb
+      DATABASE_URL: postgres://test:secret@postgres:5432/api
     depends_on:
       postgres:
         condition: service_healthy
-    command: npm run test:e2e
     mem_limit: 512m
 
 volumes:
