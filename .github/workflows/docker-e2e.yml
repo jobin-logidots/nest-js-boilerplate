@@ -19,9 +19,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Start Docker Services
+      - name: Create .env File
         run: |
-          docker compose -f docker-compose.ci.yaml --env-file .env up -d
+          echo "DATABASE_PORT=5432" >> $GITHUB_WORKSPACE/.env
+          echo "DATABASE_USERNAME=postgres" >> $GITHUB_WORKSPACE/.env
+          echo "DATABASE_PASSWORD=postgres" >> $GITHUB_WORKSPACE/.env
+          echo "DATABASE_NAME=testdb" >> $GITHUB_WORKSPACE/.env
+          echo "DATABASE_HOST=postgres" >> $GITHUB_WORKSPACE/.env
+          echo "APP_PORT=3000" >> $GITHUB_WORKSPACE/.env
+          echo "NODE_ENV=test" >> $GITHUB_WORKSPACE/.env
+          echo "DATABASE_URL=postgres://postgres:postgres@postgres:5432/testdb" >> $GITHUB_WORKSPACE/.env
+          cat $GITHUB_WORKSPACE/.env  # Debugging: Ensure .env is created
+
+      - name: Start Docker Services
+        run: docker compose -f docker-compose.ci.yaml up -d
 
       - name: Wait for API to be Ready
         run: |
