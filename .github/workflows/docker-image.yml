@@ -1,0 +1,53 @@
+name: CoreAPI E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - staging
+
+jobs:
+  e2e_tests:
+    runs-on: ubuntu-22.04
+    env:
+      NODE_ENV: test
+      DATABASE_TYPE: postgresql
+      DATABASE_USERNAME: test
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_PASSWORD: secret
+      DATABASE_NAME: api
+      DATABASE_MAX_CONNECTIONS: 100
+      DATABASE_URL: postgresql://test:secret@postgres:5432/api?schema=public
+
+      # Add other environment variables from your docker-compose.ci.yml here if needed
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Start Docker Compose
+        run: |
+          docker-compose -f docker-compose.ci.yaml up -d --build
+          docker-compose -f docker-compose.ci.yaml logs api --follow &
+
+      - name: Wait for services
+        run: |
+          docker-compose -f docker-compose.ci.yaml exec -T postgres sh -c 'until pg_isready -U postgres -d testdb; do sleep 1; done'
+
+      - name: Run database migrations and seeds
+        run: |
+          docker-compose -f docker-compose.ci.yaml exec -T api sh -c "pnpm db:migrate:deploy && pnpm db:seed"
+
+      - name: Run tests
+        run: |
+          docker-compose -f docker-compose.ci.yaml exec -T api npm run test:e2e
+
+      - name: Cleanup
+        if: always()
+        run: docker-compose -f docker-compose.ci.yaml down -v
