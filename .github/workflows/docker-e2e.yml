@@ -14,16 +14,18 @@ jobs:
       postgres:
         image: postgres:16.0-alpine
         env:
-          POSTGRES_USER: ${{ secrets.DATABASE_USERNAME }}
-          POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
         ports:
           - 5432:5432
+        # Set health checks to wait until postgres has started
         options: >-
-          --health-cmd pg_isready
-          --health-interval 5s
+          --health-cmd "pg_isready -U postgres -d test_db"
+          --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          --name postgres-container
 
     steps:
       - uses: actions/checkout@v4
@@ -37,13 +39,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Add a step to verify postgres connection
+      - name: Verify PostgreSQL connection
+        run: |
+          sudo apt-get install -y postgresql-client
+          PGPASSWORD=postgres psql -h localhost -U postgres -d test_db -c '\l'
+
       - name: Run E2E tests
         env:
           NODE_ENV: test
-          DATABASE_URL: postgresql://${{ secrets.DATABASE_USERNAME }}:${{ secrets.DATABASE_PASSWORD }}@localhost:5432/${{ secrets.DATABASE_NAME }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+          DATABASE_USERNAME: postgres
+          DATABASE_PASSWORD: postgres
+          DATABASE_NAME: test_db
           DATABASE_HOST: localhost
           APP_PORT: 3000
-        run: npm run test:e2e
+        run: |
+          # Wait for a few seconds to ensure PostgreSQL is ready
+          sleep 5
+          npm run test:e2e
