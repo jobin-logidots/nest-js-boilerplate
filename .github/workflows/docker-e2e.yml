@@ -35,28 +35,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm'
-
-      - name: Install pnpm
-        run: corepack enable && corepack prepare pnpm@latest --activate
+          cache: 'npm'
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm i
 
       - name: Generate Prisma Client
-        run: pnpm prisma generate
+        run: npx prisma generate
 
       - name: Run Database Migrations
-        run: pnpm prisma migrate deploy
+        run: npx prisma migrate deploy
 
       - name: Run Lint
-        run: pnpm run lint
+        run: npm run lint
 
       - name: Run Unit Tests
-        run: pnpm run test:unit
+        run: npm run test:unit
 
       - name: Run E2E Tests
-        run: pnpm run test:e2e
+        run: npm run test:e2e
 
       - name: Build Application
-        run: pnpm run build
+        run: npm run build
