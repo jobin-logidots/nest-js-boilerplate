@@ -33,21 +33,21 @@ jobs:
 
       - name: Start Docker Compose
         run: |
-          docker-compose -f docker-compose.ci.yaml up -d --build
-          docker-compose -f docker-compose.ci.yaml logs api --follow &
+          docker compose -f docker-compose.ci.yaml up -d --build
+          docker compose -f docker-compose.ci.yaml logs api --follow &
 
       - name: Wait for services
         run: |
-          docker-compose -f docker-compose.ci.yaml exec -T postgres sh -c 'until pg_isready -U postgres -d testdb; do sleep 1; done'
+          docker compose -f docker-compose.ci.yaml exec -T postgres sh -c 'until pg_isready -U postgres -d testdb; do sleep 1; done'
 
       - name: Run database migrations and seeds
         run: |
-          docker-compose -f docker-compose.ci.yaml exec -T api sh -c "pnpm db:migrate:deploy && pnpm db:seed"
+          docker compose -f docker-compose.ci.yaml exec -T api sh -c "pnpm db:migrate:deploy && pnpm db:seed"
 
       - name: Run tests
         run: |
-          docker-compose -f docker-compose.ci.yaml exec -T api npm run test:e2e
+          docker compose -f docker-compose.ci.yaml exec -T api npm run test:e2e
 
       - name: Cleanup
         if: always()
-        run: docker-compose -f docker-compose.ci.yaml down -v
+        run: docker compose -f docker-compose.ci.yaml down -v
