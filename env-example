@@ -19,7 +19,7 @@ DATABASE_REJECT_UNAUTHORIZED=false
 DATABASE_CA=
 DATABASE_KEY=
 DATABASE_CERT=
-DATABASE_URL=TYPE://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA
+DATABASE_URL=postgresql://root:secret@postgres:5432/api?schema=public
 
 # Support "local", "s3"
 FILE_DRIVER=local
