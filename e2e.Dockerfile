@@ -17,6 +17,7 @@ RUN mkdir -p /usr/src/app/node_modules \
 
 COPY ./wait-for-it.sh /opt/wait-for-it.sh
 COPY ./startup.dev.sh /opt/startup.dev.sh
+COPY ./startup.ci.sh /opt/startup.ci.sh
 RUN chmod +x /opt/wait-for-it.sh /opt/startup.dev.sh
 RUN sed -i 's/\r//g' /opt/wait-for-it.sh /opt/startup.dev.sh
 
