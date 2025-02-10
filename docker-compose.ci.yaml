@@ -22,6 +22,11 @@ services:
     ports:
       - ${MAIL_CLIENT_PORT}:1080
       - ${MAIL_PORT}:1025
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "1025"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   adminer:
     image: adminer
@@ -50,6 +55,8 @@ services:
       - DATABASE_HOST=${DATABASE_HOST}
     depends_on:
       postgres:
+        condition: service_healthy
+      maildev:
         condition: service_healthy
     command: pnpm run test:e2e
 volumes:
