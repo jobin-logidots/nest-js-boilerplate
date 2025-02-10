@@ -19,9 +19,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Create .env File for Docker
+        run: |
+          echo "DATABASE_PORT=5432" >> .env
+          echo "DATABASE_USERNAME=postgres" >> .env
+          echo "DATABASE_PASSWORD=postgres" >> .env
+          echo "DATABASE_NAME=testdb" >> .env
+          echo "DATABASE_HOST=postgres" >> .env
+          echo "APP_PORT=3000" >> .env
+          echo "NODE_ENV=test" >> .env
+          echo "DATABASE_URL=postgres://postgres:postgres@postgres:5432/testdb" >> .env
+          cat .env  # Debugging: Print the .env file contents
+
       - name: Start Docker Services
         run: |
-          docker compose -f docker-compose.ci.yaml up -d
+          docker compose -f docker-compose.ci.yaml --env-file .env up -d
 
       - name: Wait for PostgreSQL to be Ready
         run: |
