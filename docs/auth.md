@@ -22,6 +22,7 @@
 
 By default boilerplate used sign in and sign up via email and password.
 
+
 ```mermaid
 sequenceDiagram
     participant A as Fronted App (Web, Mobile, Desktop)
