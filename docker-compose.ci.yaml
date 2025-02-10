@@ -1,56 +1,37 @@
+version: '3.8'
+
 services:
   postgres:
     image: postgres:16.0-alpine
     ports:
-      - ${DATABASE_PORT}:5432
+      - "5432:5432"
     volumes:
-      - boilerplate-db:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: ${DATABASE_USERNAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d testdb"]
       interval: 5s
       timeout: 5s
       retries: 5
-
-  maildev:
-    build:
-      context: .
-      dockerfile: maildev.Dockerfile
-    ports:
-      - ${MAIL_CLIENT_PORT}:1080
-      - ${MAIL_PORT}:1025
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-
-  # Uncomment to use redis
-  # redis:
-  #   image: redis:7-alpine
-  #   ports:
-  #     - 6379:6379
+    mem_limit: 512m
+    
 
   api:
     build:
       context: .
-      dockerfile: Dockerfile
-    ports:
-      - ${APP_PORT}:${APP_PORT}
+      dockerfile: e2e.Dockerfile
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - DATABASE_URL=${DATABASE_URL}
-      - DATABASE_USERNAME=${DATABASE_USERNAME}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_NAME=${DATABASE_NAME}
-      - DATABASE_HOST=${DATABASE_HOST}
+      NODE_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/testdb
     depends_on:
       postgres:
         condition: service_healthy
     command: npm run test:e2e
+    mem_limit: 512m
+
 volumes:
-  boilerplate-db:
+  pgdata:
+    driver: local

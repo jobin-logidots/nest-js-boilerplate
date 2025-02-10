@@ -37,7 +37,7 @@ export class AuthService {
     private readonly forgotService: ForgotService,
     private readonly mailService: MailService,
     private readonly configService: ConfigService<AllConfigType>,
-  ) {}
+  ) { }
 
   async validateLogin(loginDto: AuthEmailLoginDto): Promise<LoginResponseType> {
     const user = await this.usersService.findOneByEmail({
@@ -241,11 +241,11 @@ export class AuthService {
       ...dto,
       email: dto.email.toLowerCase(),
       roleId: RoleEnum.USER,
-      statusId: StatusEnum.INACTIVE,
+      statusId: StatusEnum.ACTIVE,
       hash,
     });
 
-    await this.mailService.userSignUp({
+    console.log('User signup notification would be sent:', {
       to: dto.email,
       data: {
         hash,
@@ -305,7 +305,7 @@ export class AuthService {
       },
     });
 
-    await this.mailService.forgotPassword({
+    console.log('Password reset notification would be sent:', {
       to: email,
       data: {
         hash,

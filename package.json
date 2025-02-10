@@ -28,6 +28,7 @@
     "db:generate": "npx prisma generate",
     "db:generate:watch": "npx prisma generate --watch",
     "test": "jest --config test/jest-e2e.json ",
+    "test:unit": "jest --config test/jest-unit.json",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
