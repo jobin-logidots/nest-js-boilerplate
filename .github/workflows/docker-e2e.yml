@@ -19,29 +19,27 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Create .env File for Docker
-        run: |
-          echo "DATABASE_PORT=5432" >> .env
-          echo "DATABASE_USERNAME=postgres" >> .env
-          echo "DATABASE_PASSWORD=postgres" >> .env
-          echo "DATABASE_NAME=testdb" >> .env
-          echo "DATABASE_HOST=postgres" >> .env
-          echo "APP_PORT=3000" >> .env
-          echo "NODE_ENV=test" >> .env
-          echo "DATABASE_URL=postgres://postgres:postgres@postgres:5432/testdb" >> .env
-          cat .env  # Debugging: Print the .env file contents
-
       - name: Start Docker Services
         run: |
           docker compose -f docker-compose.ci.yaml --env-file .env up -d
 
-      - name: Wait for PostgreSQL to be Ready
+      - name: Wait for API to be Ready
         run: |
-          echo "Waiting for PostgreSQL to become healthy..."
-          until docker compose exec -T postgres pg_isready -U postgres -d testdb; do
-            sleep 2;
+          echo "Waiting for API to be ready..."
+          until curl -s http://127.0.0.1:3000/health > /dev/null; do
+            echo "API is not ready yet... retrying in 5 seconds";
+            sleep 5;
           done
-          echo "PostgreSQL is ready!"
+          echo "API is ready!"
+
+      - name: Debug API Logs (if API is not reachable)
+        if: failure()
+        run: docker compose logs api
+
+      - name: Run Database Migrations and Seeders
+        run: |
+          docker compose exec -T api npm run db:migrate:deploy
+          docker compose exec -T api npm run db:seed
 
       - name: Run End-to-End Tests
         run: docker compose exec -T api npm run test:e2e

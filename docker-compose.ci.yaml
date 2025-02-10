@@ -16,6 +16,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    mem_limit: 512m
+    
 
   api:
     build:
@@ -28,6 +30,7 @@ services:
       postgres:
         condition: service_healthy
     command: npm run test:e2e
+    mem_limit: 512m
 
 volumes:
   pgdata:
