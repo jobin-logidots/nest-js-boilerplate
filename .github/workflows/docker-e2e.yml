@@ -10,11 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Start services (Postgres, Maildev, API)
+      - name: Start services (Postgres, API)
         run: |
-          docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up -d
+          docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up -d postgres api
       
-      # Add proper health checks for all services
+      # Add proper health checks for services
       - name: Wait for services to be ready
         run: |
           # Wait for postgres
