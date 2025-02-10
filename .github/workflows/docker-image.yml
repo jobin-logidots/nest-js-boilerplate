@@ -23,21 +23,21 @@ jobs:
 
       - name: Start Docker Compose
         run: |
-          docker-compose -f docker-compose.ci.yml up -d --build
-          docker-compose -f docker-compose.ci.yml logs api --follow &
+          docker compose -f docker-compose.ci.yaml up -d --build
+          docker compose -f docker-compose.ci.yaml logs api --follow &
 
       - name: Wait for Postgres to be ready
         run: |
-          docker-compose -f docker-compose.ci.yml exec -T postgres sh -c 'until pg_isready -U test -d api; do sleep 1; done'
+          docker compose -f docker-compose.ci.yaml exec -T postgres sh -c 'until pg_isready -U test -d api; do sleep 1; done'
 
       - name: Wait for API service to be ready
         run: |
-          docker-compose -f docker-compose.ci.yml exec -T api sh -c "while ! curl -s http://localhost:3000 > /dev/null; do sleep 1; done"
+          docker compose -f docker-compose.ci.yaml exec -T api sh -c "while ! curl -s http://localhost:3000 > /dev/null; do sleep 1; done"
 
       - name: Run tests
         run: |
-          docker-compose -f docker-compose.ci.yml exec -T api npm run test:e2e
+          docker compose -f docker-compose.ci.yaml exec -T api npm run test:e2e
 
       - name: Cleanup
         if: always()
-        run: docker-compose -f docker-compose.ci.yml down -v
+        run: docker compose -f docker-compose.ci.yaml down -v
