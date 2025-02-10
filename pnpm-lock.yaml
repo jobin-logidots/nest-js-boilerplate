@@ -33,8 +33,8 @@ dependencies:
     specifier: 10.0.2
     version: 10.0.2(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)(reflect-metadata@0.2.2)(rxjs@7.8.1)(typeorm@0.3.20)
   '@prisma/client':
-    specifier: ^5.14.0
-    version: 5.22.0(prisma@5.22.0)
+    specifier: ^6.0.0
+    version: 6.3.1(prisma@6.3.1)(typescript@5.4.5)
   '@types/multer-s3':
     specifier: 3.0.3
     version: 3.0.3
@@ -73,7 +73,7 @@ dependencies:
     version: 10.4.5(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)(class-validator@0.14.1)(rxjs@7.8.1)
   nestjs-prisma:
     specifier: ^0.23.0
-    version: 0.23.0(@nestjs/common@10.3.8)(@prisma/client@5.22.0)(prisma@5.22.0)
+    version: 0.23.0(@nestjs/common@10.3.8)(@prisma/client@6.3.1)(prisma@6.3.1)
   nodemailer:
     specifier: 6.9.13
     version: 6.9.13
@@ -191,8 +191,8 @@ devDependencies:
     specifier: 3.2.5
     version: 3.2.5
   prisma:
-    specifier: ^5.14.0
-    version: 5.22.0
+    specifier: ^6.0.0
+    version: 6.3.1(typescript@5.4.5)
   supertest:
     specifier: 7.0.0
     version: 7.0.0
@@ -394,8 +394,8 @@ packages:
       '@aws-crypto/sha1-browser': 3.0.0
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.587.0
-      '@aws-sdk/client-sts': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)
+      '@aws-sdk/client-sso-oidc': 3.587.0(@aws-sdk/client-sts@3.587.0)
+      '@aws-sdk/client-sts': 3.587.0
       '@aws-sdk/core': 3.587.0
       '@aws-sdk/credential-provider-node': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/middleware-bucket-endpoint': 3.587.0
@@ -453,13 +453,13 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/client-sso-oidc@3.587.0:
+  /@aws-sdk/client-sso-oidc@3.587.0(@aws-sdk/client-sts@3.587.0):
     resolution: {integrity: sha512-ISDgHcGmXLdSJjVk8X6dPHRdlaURDbSyZ7b8sQyXCrBt8EQ/d/sEQLEaJJJrdB6Z2fYRDupWQq7+s42bH2FLjA==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)
+      '@aws-sdk/client-sts': 3.587.0
       '@aws-sdk/core': 3.587.0
       '@aws-sdk/credential-provider-node': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/middleware-host-header': 3.577.0
@@ -498,6 +498,7 @@ packages:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.6.2
     transitivePeerDependencies:
+      - '@aws-sdk/client-sts'
       - aws-crt
     dev: false
 
@@ -547,13 +548,13 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/client-sts@3.587.0(@aws-sdk/client-sso-oidc@3.587.0):
+  /@aws-sdk/client-sts@3.587.0:
     resolution: {integrity: sha512-fnOa7bHuvoOHULZlVE4LgSAiKmXWZFkI42m1XV2XjeW9jtEQDTyTD678My6tGQi2T3Jwrgk6c7h2rOO3wLl9tg==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.587.0
+      '@aws-sdk/client-sso-oidc': 3.587.0(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/core': 3.587.0
       '@aws-sdk/credential-provider-node': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/middleware-host-header': 3.577.0
@@ -592,7 +593,6 @@ packages:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.6.2
     transitivePeerDependencies:
-      - '@aws-sdk/client-sso-oidc'
       - aws-crt
     dev: false
 
@@ -640,7 +640,7 @@ packages:
     peerDependencies:
       '@aws-sdk/client-sts': ^3.587.0
     dependencies:
-      '@aws-sdk/client-sts': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)
+      '@aws-sdk/client-sts': 3.587.0
       '@aws-sdk/credential-provider-env': 3.587.0
       '@aws-sdk/credential-provider-http': 3.587.0
       '@aws-sdk/credential-provider-process': 3.587.0
@@ -712,7 +712,7 @@ packages:
     peerDependencies:
       '@aws-sdk/client-sts': ^3.587.0
     dependencies:
-      '@aws-sdk/client-sts': 3.587.0(@aws-sdk/client-sso-oidc@3.587.0)
+      '@aws-sdk/client-sts': 3.587.0
       '@aws-sdk/types': 3.577.0
       '@smithy/property-provider': 3.1.11
       '@smithy/types': 3.7.2
@@ -888,7 +888,7 @@ packages:
     peerDependencies:
       '@aws-sdk/client-sso-oidc': ^3.587.0
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.587.0
+      '@aws-sdk/client-sso-oidc': 3.587.0(@aws-sdk/client-sts@3.587.0)
       '@aws-sdk/types': 3.577.0
       '@smithy/property-provider': 3.1.11
       '@smithy/shared-ini-file-loader': 3.1.12
@@ -1951,45 +1951,49 @@ packages:
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     dev: true
 
-  /@prisma/client@5.22.0(prisma@5.22.0):
-    resolution: {integrity: sha512-M0SVXfyHnQREBKxCgyo7sffrKttwE6R8PMq330MIUF0pTwjUhLbW84pFDlf06B27XyCR++VtjugEnIHdr07SVA==}
-    engines: {node: '>=16.13'}
+  /@prisma/client@6.3.1(prisma@6.3.1)(typescript@5.4.5):
+    resolution: {integrity: sha512-ARAJaPs+eBkemdky/XU3cvGRl+mIPHCN2lCXsl5Vlb0E2gV+R6IN7aCI8CisRGszEZondwIsW9Iz8EJkTdykyA==}
+    engines: {node: '>=18.18'}
     requiresBuild: true
     peerDependencies:
       prisma: '*'
+      typescript: '>=5.1.0'
     peerDependenciesMeta:
       prisma:
         optional: true
+      typescript:
+        optional: true
     dependencies:
-      prisma: 5.22.0
+      prisma: 6.3.1(typescript@5.4.5)
+      typescript: 5.4.5
     dev: false
 
-  /@prisma/debug@5.22.0:
-    resolution: {integrity: sha512-AUt44v3YJeggO2ZU5BkXI7M4hu9BF2zzH2iF2V5pyXT/lRTyWiElZ7It+bRH1EshoMRxHgpYg4VB6rCM+mG5jQ==}
+  /@prisma/debug@6.3.1:
+    resolution: {integrity: sha512-RrEBkd+HLZx+ydfmYT0jUj7wjLiS95wfTOSQ+8FQbvb6vHh5AeKfEPt/XUQ5+Buljj8hltEfOslEW57/wQIVeA==}
 
-  /@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2:
-    resolution: {integrity: sha512-2PTmxFR2yHW/eB3uqWtcgRcgAbG1rwG9ZriSvQw+nnb7c4uCr3RAcGMb6/zfE88SKlC1Nj2ziUvc96Z379mHgQ==}
+  /@prisma/engines-version@6.3.0-17.acc0b9dd43eb689cbd20c9470515d719db10d0b0:
+    resolution: {integrity: sha512-R/ZcMuaWZT2UBmgX3Ko6PAV3f8//ZzsjRIG1eKqp3f2rqEqVtCv+mtzuH2rBPUC9ujJ5kCb9wwpxeyCkLcHVyA==}
 
-  /@prisma/engines@5.22.0:
-    resolution: {integrity: sha512-UNjfslWhAt06kVL3CjkuYpHAWSO6L4kDCVPegV6itt7nD1kSJavd3vhgAEhjglLJJKEdJ7oIqDJ+yHk6qO8gPA==}
+  /@prisma/engines@6.3.1:
+    resolution: {integrity: sha512-sXdqEVLyGAJ5/iUoG/Ea5AdHMN71m6PzMBWRQnLmhhOejzqAaEr8rUd623ql6OJpED4s/U4vIn4dg1qkF7vGag==}
     requiresBuild: true
     dependencies:
-      '@prisma/debug': 5.22.0
-      '@prisma/engines-version': 5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2
-      '@prisma/fetch-engine': 5.22.0
-      '@prisma/get-platform': 5.22.0
+      '@prisma/debug': 6.3.1
+      '@prisma/engines-version': 6.3.0-17.acc0b9dd43eb689cbd20c9470515d719db10d0b0
+      '@prisma/fetch-engine': 6.3.1
+      '@prisma/get-platform': 6.3.1
 
-  /@prisma/fetch-engine@5.22.0:
-    resolution: {integrity: sha512-bkrD/Mc2fSvkQBV5EpoFcZ87AvOgDxbG99488a5cexp5Ccny+UM6MAe/UFkUC0wLYD9+9befNOqGiIJhhq+HbA==}
+  /@prisma/fetch-engine@6.3.1:
+    resolution: {integrity: sha512-HOf/0umOgt+/S2xtZze+FHKoxpVg4YpVxROr6g2YG09VsI3Ipyb+rGvD6QGbCqkq5NTWAAZoOGNL+oy7t+IhaQ==}
     dependencies:
-      '@prisma/debug': 5.22.0
-      '@prisma/engines-version': 5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2
-      '@prisma/get-platform': 5.22.0
+      '@prisma/debug': 6.3.1
+      '@prisma/engines-version': 6.3.0-17.acc0b9dd43eb689cbd20c9470515d719db10d0b0
+      '@prisma/get-platform': 6.3.1
 
-  /@prisma/get-platform@5.22.0:
-    resolution: {integrity: sha512-pHhpQdr1UPFpt+zFfnPazhulaZYCUqeIcPpJViYoq9R+D/yw4fjE+CtnsnKzPYm0ddUbeXUzjGVGIRVgPDCk4Q==}
+  /@prisma/get-platform@6.3.1:
+    resolution: {integrity: sha512-AYLq6Hk9xG73JdLWJ3Ip9Wg/vlP7xPvftGBalsPzKDOHr/ImhwJ09eS8xC2vNT12DlzGxhfk8BkL0ve2OriNhQ==}
     dependencies:
-      '@prisma/debug': 5.22.0
+      '@prisma/debug': 6.3.1
 
   /@scarf/scarf@1.4.0:
     resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
@@ -7039,7 +7043,7 @@ packages:
       string-format: 2.0.0
     dev: false
 
-  /nestjs-prisma@0.23.0(@nestjs/common@10.3.8)(@prisma/client@5.22.0)(prisma@5.22.0):
+  /nestjs-prisma@0.23.0(@nestjs/common@10.3.8)(@prisma/client@6.3.1)(prisma@6.3.1):
     resolution: {integrity: sha512-0pIMDasayP+vMFSztcs85zu4WSPTKM85F8vIrqn7GsUBboEcKhI8eCeVghhNyKDGzEBaNAYNJlo2MAWdNuN7Tw==}
     peerDependencies:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -7049,9 +7053,9 @@ packages:
       '@angular-devkit/core': 13.3.11
       '@angular-devkit/schematics': 13.3.11
       '@nestjs/common': 10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
-      '@prisma/client': 5.22.0(prisma@5.22.0)
+      '@prisma/client': 6.3.1(prisma@6.3.1)(typescript@5.4.5)
       '@schematics/angular': 13.3.11
-      prisma: 5.22.0
+      prisma: 6.3.1(typescript@5.4.5)
     transitivePeerDependencies:
       - chokidar
     dev: false
@@ -7542,13 +7546,19 @@ packages:
       react-is: 18.3.1
     dev: true
 
-  /prisma@5.22.0:
-    resolution: {integrity: sha512-vtpjW3XuYCSnMsNVBjLMNkTj6OZbudcPPTPYHqX0CJfpcdWciI1dM8uHETwmDxxiqEwCIE6WvXucWUetJgfu/A==}
-    engines: {node: '>=16.13'}
+  /prisma@6.3.1(typescript@5.4.5):
+    resolution: {integrity: sha512-JKCZWvBC3enxk51tY4TWzS4b5iRt4sSU1uHn2I183giZTvonXaQonzVtjLzpOHE7qu9MxY510kAtFGJwryKe3Q==}
+    engines: {node: '>=18.18'}
     hasBin: true
     requiresBuild: true
+    peerDependencies:
+      typescript: '>=5.1.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
-      '@prisma/engines': 5.22.0
+      '@prisma/engines': 6.3.1
+      typescript: 5.4.5
     optionalDependencies:
       fsevents: 2.3.3
 
