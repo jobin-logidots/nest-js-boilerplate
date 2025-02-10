@@ -1,60 +1,50 @@
-name: E2E Tests
+name: Docker E2E Tests
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  e2e-tests:
+  build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16.0-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
-        ports:
-          - 5432:5432
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd "pg_isready -U postgres -d test_db"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --name postgres-container
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Install dependencies
-        run: npm ci
-
-      # Add a step to verify postgres connection
-      - name: Verify PostgreSQL connection
+      - name: Create Environment File
         run: |
-          sudo apt-get install -y postgresql-client
-          PGPASSWORD=postgres psql -h localhost -U postgres -d test_db -c '\l'
+          echo "DATABASE_PORT=5432" >> .env
+          echo "DATABASE_USERNAME=postgres" >> .env
+          echo "DATABASE_PASSWORD=postgres" >> .env
+          echo "DATABASE_NAME=testdb" >> .env
+          echo "DATABASE_HOST=localhost" >> .env
+          echo "APP_PORT=3000" >> .env
+          echo "NODE_ENV=test" >> .env
+          echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/testdb" >> .env
 
-      - name: Run E2E tests
-        env:
-          NODE_ENV: test
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
-          DATABASE_USERNAME: postgres
-          DATABASE_PASSWORD: postgres
-          DATABASE_NAME: test_db
-          DATABASE_HOST: localhost
-          APP_PORT: 3000
+      - name: Start Docker Services
         run: |
-          # Wait for a few seconds to ensure PostgreSQL is ready
-          sleep 5
-          npm run test:e2e
+          docker compose -f docker-compose.yml --env-file .env up -d
+
+      - name: Wait for PostgreSQL to be Ready
+        run: |
+          until docker compose exec -T postgres pg_isready -U postgres -d testdb; do
+            echo "Waiting for PostgreSQL...";
+            sleep 2;
+          done
+          echo "PostgreSQL is ready!"
+
+      - name: Run End-to-End Tests
+        run: docker compose exec -T api npm run test:e2e
+
+      - name: Stop Docker Services
+        if: always()
+        run: docker compose down
