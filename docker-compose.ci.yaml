@@ -9,6 +9,11 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   maildev:
     build:
@@ -44,6 +49,8 @@ services:
       - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_HOST=${DATABASE_HOST}
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    command: pnpm run test:e2e
 volumes:
   boilerplate-db:
