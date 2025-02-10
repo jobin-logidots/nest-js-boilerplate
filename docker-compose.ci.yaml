@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16.0-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: api
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test -d api"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    mem_limit: 512m
+
+  api:
+    build:
+      context: .
+      dockerfile: e2e.Dockerfile
+    environment:
+      NODE_ENV: test
+      DATABASE_URL: postgres://test:secret@postgres:5432/api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 512m
+
+volumes:
+  pgdata:
+    driver: local
