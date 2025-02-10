@@ -1,4 +1,4 @@
-FROM node:18.18.0-alpine
+FROM node:18.20.6-alpine
 
 RUN apk add --no-cache bash curl rsync
 RUN corepack enable && corepack prepare pnpm@latest --activate
