@@ -72,8 +72,8 @@ dependencies:
     specifier: 10.4.5
     version: 10.4.5(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)(class-validator@0.14.1)(rxjs@7.8.1)
   nestjs-prisma:
-    specifier: ^0.23.0
-    version: 0.23.0(@nestjs/common@10.3.8)(@prisma/client@5.22.0)(prisma@5.22.0)
+    specifier: ^0.27.0
+    version: 0.27.0(@nestjs/common@10.3.8)(@prisma/client@5.22.0)(prisma@5.22.0)
   nodemailer:
     specifier: 6.9.13
     version: 6.9.13
@@ -6798,12 +6798,12 @@ packages:
       string-format: 2.0.0
     dev: false
 
-  /nestjs-prisma@0.23.0(@nestjs/common@10.3.8)(@prisma/client@5.22.0)(prisma@5.22.0):
-    resolution: {integrity: sha512-0pIMDasayP+vMFSztcs85zu4WSPTKM85F8vIrqn7GsUBboEcKhI8eCeVghhNyKDGzEBaNAYNJlo2MAWdNuN7Tw==}
+  /nestjs-prisma@0.27.0(@nestjs/common@10.3.8)(@prisma/client@5.22.0)(prisma@5.22.0):
+    resolution: {integrity: sha512-rCqkBbT+/2/IPdLJL2KD50uR4Rc9X5LFRDvTSPkd2SfGoF3nE3iMQ9as0to8fqU4ipk/7/Y9aFO+WTYUbES0Sg==}
     peerDependencies:
-      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
-      '@prisma/client': ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
-      prisma: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
+      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+      '@prisma/client': ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+      prisma: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
     dependencies:
       '@angular-devkit/core': 13.3.11
       '@angular-devkit/schematics': 13.3.11
